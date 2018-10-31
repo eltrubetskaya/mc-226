@@ -4,6 +4,6 @@
         <block
                 class="ElTrubetskaia\Lesson3\Block\CustomBlock"
                 name="home_work"
-                template="ElTrubetskaia_Lesson3::hello.phtml"/>
+                template="ElTrubetskaia_Lesson3::myhomework.phtml"/>
     </referenceContainer>
 </page>
