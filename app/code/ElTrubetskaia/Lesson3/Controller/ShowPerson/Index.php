@@ -33,7 +33,7 @@ class Index extends \Magento\Framework\App\Action\Action
         if ($this->customerSession->isLoggedIn()) {
             $customerName = $this->customerSession->getCustomer()->getName();
             $resultPage->getLayout()
-                ->getBlock('home_work')
+                ->getBlock('el_lesson3')
                 ->setCustomerName($customerName);
         }
 

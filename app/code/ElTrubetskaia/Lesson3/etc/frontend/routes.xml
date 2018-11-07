@@ -1,6 +1,6 @@
 <config>
     <router id="standard">
-        <route id="home_work" frontName="home-work">
+        <route id="el_lesson3" frontName="el-lesson3">
             <module name="ElTrubetskaia_Lesson3"/>
         </route>
     </router>

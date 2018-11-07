@@ -3,7 +3,7 @@
     <referenceContainer name="content">
         <block
                 class="ElTrubetskaia\Lesson3\Block\CustomBlock"
-                name="home_work"
+                name="el_lesson3"
                 template="ElTrubetskaia_Lesson3::myhomework.phtml"/>
     </referenceContainer>
 </page>
