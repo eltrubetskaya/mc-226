@@ -31,9 +31,10 @@ class Index extends \Magento\Framework\App\Action\Action
         /** @var \Magento\Framework\View\Result\Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
         if ($this->customerSession->isLoggedIn()) {
+            $customerName = $this->customerSession->getCustomer()->getName();
             $resultPage->getLayout()
                 ->getBlock('home_work')
-                ->setCustomerName($this->customerSession->getCustomer()->getName());
+                ->setCustomerName($customerName);
         }
 
         return $resultPage;
