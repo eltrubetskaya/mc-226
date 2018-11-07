@@ -2,15 +2,26 @@
 
 namespace ElTrubetskaia\Lesson3\Controller\ShowPerson;
 
-
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\ResultFactory;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var Session
+     */
+    protected $customerSession;
 
-    const NAME = 'Elena';
-
-    const LAST_NAME = 'Trubetskaia';
+    /**
+     * @param Context $context
+     * @param Session $customerSession
+     */
+    public function __construct(Context $context, Session $customerSession)
+    {
+        parent::__construct($context);
+        $this->customerSession = $customerSession;
+    }
 
     /**
      * @return \Magento\Framework\View\Result\Page
@@ -19,12 +30,11 @@ class Index extends \Magento\Framework\App\Action\Action
     {
         /** @var \Magento\Framework\View\Result\Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage->getLayout()
-            ->getBlock('home_work')
-            ->setName(self::NAME);
-        $resultPage->getLayout()
-            ->getBlock('home_work')
-            ->setLastName(self::LAST_NAME);
+        if ($this->customerSession->isLoggedIn()) {
+            $resultPage->getLayout()
+                ->getBlock('home_work')
+                ->setCustomerName($this->customerSession->getCustomer()->getName());
+        }
 
         return $resultPage;
     }
