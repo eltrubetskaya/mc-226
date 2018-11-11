@@ -7,16 +7,12 @@
         <span>Your request was successfully</span>
     </h1>
 
-    <?php if ($block->getName()):?>
+    <?php if ($block->getCustomerName()):?>
         <h3>
-            <?= /* @escapeNotVerified */ $block->getName(); ?>
+            <?= $block->getCustomerName(); ?>
         </h3>
-    <?php endif;?>
-
-    <?php if ($block->getLastName()):?>
-        <h3>
-            <?= /* @escapeNotVerified */ $block->getLastName(); ?>
-        </h3>
+    <?php else: ?>
+        <h3>Anonymous</h3>
     <?php endif;?>
 
     <a href="<?= $block->generateUrl() ?>">Link to JSON controller</a>
