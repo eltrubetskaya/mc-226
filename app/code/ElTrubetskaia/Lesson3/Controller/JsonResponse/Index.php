@@ -2,7 +2,6 @@
 
 namespace ElTrubetskaia\Lesson3\Controller\JsonResponse;
 
-
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
