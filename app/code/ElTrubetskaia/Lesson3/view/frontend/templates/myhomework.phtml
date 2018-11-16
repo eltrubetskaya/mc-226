@@ -4,16 +4,16 @@
 
 <div class="content-wrapper">
     <h1>
-        <span>Your request was successfully</span>
+        <span><?php echo $block->escapeHtml(__('Your request was successfully')) ?></span>
     </h1>
 
-    <?php if ($block->getCustomerName()):?>
+    <?php if ($block->getCustomerName()) :?>
         <h3>
-            <?= $block->getCustomerName(); ?>
+            <?php echo $block->getCustomerName() ?>
         </h3>
-    <?php else: ?>
-        <h3>Anonymous</h3>
+    <?php else : ?>
+        <h3><?php echo $block->escapeHtml(__('Anonymous')) ?></h3>
     <?php endif;?>
 
-    <a href="<?= $block->generateUrl() ?>">Link to JSON controller</a>
+    <a href="<?php echo $block->generateUrl() ?>"><?php echo $block->escapeHtml(__('Link to JSON controller')) ?></a>
 </div>

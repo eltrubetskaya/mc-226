@@ -11,7 +11,7 @@ class Index extends \Magento\Framework\App\Action\Action
     /**
      * @var Session
      */
-    protected $customerSession;
+    private $customerSession;
 
     /**
      * @param Context $context
