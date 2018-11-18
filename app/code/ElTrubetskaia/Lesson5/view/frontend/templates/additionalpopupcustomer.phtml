@@ -4,5 +4,13 @@
  */
 ?>
 <h3>
-    <span><?php echo $block->escapeHtml(__('Registration for dealer')) ?></span>
+    <a href="javascript:void(0)"
+       id="registration-for-dealer"
+       data-mage-init='{"modalRegistrationForm": {}}'>
+        <?php echo $block->escapeHtml(__('Registration for dealer')) ?>
+    </a>
 </h3>
+
+<div id="registration-for-dealer-modal" style="display:none;">
+    <div id="registration-for-dealer-modal-content"></div>
+</div>
