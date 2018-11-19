@@ -8,6 +8,7 @@ return [
         'ElTrubetskaia_Lesson3' => 1,
         'ElTrubetskaia_Lesson4' => 1,
         'ElTrubetskaia_Lesson5' => 1,
+        'ElTrubetskaia_AskQuestion' => 1,
         'Magento_Cms' => 1,
         'Magento_Customer' => 1,
         'Magento_AdminNotification' => 1,
