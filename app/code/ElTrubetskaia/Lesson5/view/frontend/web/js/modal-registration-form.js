@@ -21,9 +21,6 @@ define([
     var popup = modal(options, $('#registration-for-dealer-modal'));
 
     $('#registration-for-dealer').on('click', function () {
-        var modalContent = $('.form-create-account').clone();
-
-        $('#registration-for-dealer-modal-content').html(modalContent);
         $('#registration-for-dealer-modal').modal('openModal');
     });
 });
