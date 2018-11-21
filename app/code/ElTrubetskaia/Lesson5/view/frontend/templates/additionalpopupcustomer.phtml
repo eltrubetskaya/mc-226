@@ -41,7 +41,36 @@ use Magento\Customer\Block\Widget\Name;
                 <input type="hidden"
                        name="error_url"
                        value="<?php echo $block->escapeUrl($block->getErrorUrl()) ?>">
-                <?php echo $block->getLayout()->createBlock(Name::class)->setObject($block->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
+                <div class="field field-name-firstname required">
+                    <label class="label" for="firstname"><span><?php echo $block->escapeHtml(__('First Name')) ?></span></label>
+                    <div class="control">
+                        <input type="text"
+                               id="modal-firstname"
+                               name="modal-firstname"
+                               value="<?php echo $block->escapeHtml($block->getFirstName()) ?>"
+                               title="<?php echo $block->escapeHtmlAttr(__('First Name')) ?>"
+                               class="input-text required-entry"
+                               data-validate="{required:true}"
+                               autocomplete="off"
+                               aria-required="true">
+                    </div>
+                </div>
+                <div class="field field-name-lastname required">
+                    <label class="label" for="lastname">
+                        <span><?php echo $block->escapeHtml(__('Last Name')) ?></span>
+                    </label>
+                    <div class="control">
+                        <input type="text"
+                               id="modal-lastname"
+                               name="modal-lastname"
+                               value="<?php echo $block->escapeHtml($block->getLastName()) ?>"
+                               title="<?php echo $block->escapeHtmlAttr(__('Last Name')) ?>"
+                               class="input-text required-entry"
+                               data-validate="{required:true}"
+                               autocomplete="off"
+                               aria-required="true">
+                    </div>
+                </div>
                 <?php if ($block->isNewsletterEnabled()) : ?>
                     <div class="field choice newsletter">
                         <input type="checkbox"
@@ -208,7 +237,7 @@ use Magento\Customer\Block\Widget\Name;
                             </span>
                         </label>
                         <div class="control">
-                            <?php echo $block->getCountryHtmlSelect() ?>
+                            <?php echo $block->getCountryHtmlSelect(null, 'country_id', 'modal-country', 'Country') ?>
                         </div>
                     </div>
                     <?php $addressAttributes = $block->getChildBlock('customer_form_address_user_attributes');?>
