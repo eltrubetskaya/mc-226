@@ -1,0 +1,22 @@
+//    Common
+//--------------------------------------
+
+//@screen__xxs: 320px;
+//@screen__xs: 480px;
+//@screen__s: 640px;
+//@screen__m: 768px;
+//@screen__l: 1024px;
+//@screen__xl: 1440px;
+
+////------------------------------------
+
+& when (@media-common = true) {
+
+    @dropdown-list__border-custom: 1px solid @color-dark-green1;
+    .example-dropdown-5 {
+        .lib-dropdown(
+            @_dropdown-list-border: @dropdown-list__border-custom
+        );
+    }
+
+}
