@@ -188,8 +188,8 @@ use Magento\Customer\Block\Widget\Dob;
                             </span>
                         </label>
                         <div class="control">
-                            <select id="region_id"
-                                    name="region_id"
+                            <select id="modal-region_id"
+                                    name="modal-region_id"
                                     title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>"
                                     class="validate-select"
                                     style="display:none;">
@@ -198,8 +198,8 @@ use Magento\Customer\Block\Widget\Dob;
                                 </option>
                             </select>
                             <input type="text"
-                                   id="region"
-                                   name="region"
+                                   id="modal-region"
+                                   name="modal-region"
                                    value="<?= $block->escapeHtml($block->getRegion()) ?>"
                                    title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>"
                                    class="input-text <?= $block->escapeHtmlAttr(
@@ -211,7 +211,7 @@ use Magento\Customer\Block\Widget\Dob;
                     </div>
 
                     <div class="field zip required">
-                        <label for="zip" class="label">
+                        <label for="modal-zip" class="label">
                             <span>
                                 <?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?>
                             </span>
@@ -222,7 +222,7 @@ use Magento\Customer\Block\Widget\Dob;
                                    value="<?= $block->escapeHtmlAttr($block->getFormData()->getPostcode()) ?>"
                                    title="<?= /* @noEscape */ $block->getAttributeData()
                                        ->getFrontendLabel('postcode') ?>"
-                                   id="zip"
+                                   id="modal-zip"
                                    class="input-text validate-zip-international <?= $block->escapeHtmlAttr($this->helper(
                                        Address::class
                                    )->getAttributeValidationClass('postcode')) ?>">
@@ -380,9 +380,9 @@ use Magento\Customer\Block\Widget\Dob;
         "#modal-country": {
             "regionUpdater": {
                 "optionalRegionAllowed": <?= /* @noEscape */ $block->getConfig('general/region/display_all') ? 'true' : 'false' ?>,
-                "regionListId": "#region_id",
-                "regionInputId": "#region",
-                "postcodeId": "#zip",
+                "regionListId": "#modal-region_id",
+                "regionInputId": "#modal-region",
+                "postcodeId": "#modal-zip",
                 "form": "#modal-form-validate",
                 "regionJson": <?= /* @noEscape */ $this->helper(\Magento\Directory\Helper\Data::class)->getRegionJson() ?>,
                 "defaultRegion": "<?= (int) $block->getFormData()->getRegionId() ?>",
