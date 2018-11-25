@@ -353,7 +353,7 @@ use Magento\Customer\Block\Widget\Dob;
         var ignore = <?= /* @noEscape */ $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null' ?>;
 
         dataForm.mage('validation', {
-            <?php if ($_dob->isEnabled()): ?>
+            <?php if ($_dob->isEnabled()) : ?>
             errorPlacement: function(error, element) {
                 if (element.prop('id').search('full') !== -1) {
                     var dobElement = $(element).parents('.customer-dob'),
@@ -367,23 +367,23 @@ use Magento\Customer\Block\Widget\Dob;
                 }
             },
             ignore: ':hidden:not(' + ignore + ')'
-            <?php else: ?>
+            <?php else : ?>
             ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
             <?php endif ?>
         }).find('input:text').attr('autocomplete', 'off');
 
     });
 </script>
-<?php if ($block->getShowAddressFields()): ?>
+<?php if ($block->getShowAddressFields()) : ?>
     <script type="text/x-magento-init">
     {
-        "#country": {
+        "#modal-country": {
             "regionUpdater": {
                 "optionalRegionAllowed": <?= /* @noEscape */ $block->getConfig('general/region/display_all') ? 'true' : 'false' ?>,
                 "regionListId": "#region_id",
                 "regionInputId": "#region",
                 "postcodeId": "#zip",
-                "form": "#form-validate",
+                "form": "#modal-form-validate",
                 "regionJson": <?= /* @noEscape */ $this->helper(\Magento\Directory\Helper\Data::class)->getRegionJson() ?>,
                 "defaultRegion": "<?= (int) $block->getFormData()->getRegionId() ?>",
                 "countriesWithOptionalZip": <?= /* @noEscape */ $this->helper(\Magento\Directory\Helper\Data::class)->getCountriesWithOptionalZip(true) ?>
