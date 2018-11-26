@@ -1,4 +1,6 @@
 <div id="custom-promo">
-    <img src="<?= $block->getViewFileUrl('images/gh.png'); ?>" alt="Get hands-on knowledge of IT" title="Get hands-on knowledge of IT">
-    <p>Get hands-on knowledge of IT</p>
+    <img src="<?php echo $block->getViewFileUrl('images/gh.png'); ?>"
+         alt="<?php echo $block->escapeHtml(__('Get hands-on knowledge of IT')) ?>"
+         title="<?php echo $block->escapeHtml(__('Get hands-on knowledge of IT')) ?>">
+    <p><?php echo $block->escapeHtml(__('Get hands-on knowledge of IT')) ?></p>
 </div>
