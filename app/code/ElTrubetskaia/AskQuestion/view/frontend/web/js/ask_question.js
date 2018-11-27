@@ -22,7 +22,6 @@ define([
          */
         submitForm: function () {
             if (!this.validateForm()) {
-
                 return;
             }
 
@@ -61,15 +60,18 @@ define([
                     });
 
                     if (response.status === 'Success') {
-                        var now = new Date();
-                        now.setMinutes(now.getMinutes() + 2);
-                        if ($.mage.cookies.get('el_trubetskaia_ask_question_was_requested')) {
+                        var  expired = new Date();
+                        expired.setMinutes(expired.getMinutes() + 2);
 
-                        }
                         // Prevent from sending requests too often
-                        $.mage.cookies.set(this.options.cookieName, true, {
-                            expires: now
-                        });
+                        $.mage.cookies.set(
+                            this.options.cookieName,
+                            expired,
+                            {
+                                expires: expired
+                            }
+                        );
+                        $('#btn-ask-question').attr('disabled', 'disabled');
                     }
                 },
 
@@ -90,7 +92,7 @@ define([
          */
         validateForm: function () {
             return $(this.element).validation().valid();
-        },
+        }
     });
 
     return $.elTrubetskaia.askQuestion;
