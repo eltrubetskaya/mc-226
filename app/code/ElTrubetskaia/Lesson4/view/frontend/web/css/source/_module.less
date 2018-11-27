@@ -12,32 +12,11 @@
 
 & when (@media-common = true) {
 
-    @dropdown-list__border: 1px solid @color-dark-green1;
+    @dropdown-list__border-custom: 1px solid @color-dark-green1;
     .example-dropdown-5 {
         .lib-dropdown(
-            @_dropdown-list-border: @dropdown-list__border
+            @_dropdown-list-border: @dropdown-list__border-custom
         );
     }
-
-}
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xs){
-}
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl){
-}
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l){
-
-}
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m){
-}
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s){
-
-}
-
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs){
 
 }
