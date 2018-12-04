@@ -60,18 +60,22 @@ define([
                     });
 
                     if (response.status === 'Success') {
-                        var  expired = new Date();
-                        expired.setMinutes(expired.getMinutes() + 2);
-
                         // Prevent from sending requests too often
+                        var self = this
                         $.mage.cookies.set(
-                            this.options.cookieName,
-                            expired,
+                            self.options.cookieName,
+                            true,
                             {
-                                expires: expired
+                                lifetime: 120
                             }
                         );
                         $('#btn-ask-question').attr('disabled', 'disabled');
+                        var checkCookie = setInterval(function () {
+                            if (!$.mage.cookies.get(self.options.cookieName)) {
+                                $('#btn-ask-question').removeAttr('disabled');
+                                clearInterval(checkCookie);
+                            }
+                        }, 1000);
                     }
                 },
 
