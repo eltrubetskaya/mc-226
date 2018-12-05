@@ -3,7 +3,8 @@ define([
     'Magento_Ui/js/modal/alert',
     'mage/cookies',
     'mage/translate',
-    'jquery/ui'
+    'jquery/ui',
+    'askQuestionFormValidator'
 ], function ($, alert) {
     'use strict';
 

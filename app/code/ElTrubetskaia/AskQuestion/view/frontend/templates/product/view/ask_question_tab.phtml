@@ -46,16 +46,18 @@
                         />
                     </div>
                 </div>
-                <div class="field telephone">
+                <div class="field telephone required">
                     <label class="label" for="telephone">
-                        <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
+                        <span class="ask-question-form-telephone-label"><?= $block->escapeHtml(__('Phone Number')) ?></span>
                     </label>
                     <div class="control">
                         <input name="telephone"
+                               placeholder="+380"
                                id="telephone"
                                title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
                                class="input-text"
                                type="text"
+                               data-validate="{required:true, 'custom-validate-phone-number':true}"
                         />
                     </div>
                 </div>
