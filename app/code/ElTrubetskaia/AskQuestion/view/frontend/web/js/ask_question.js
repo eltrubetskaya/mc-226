@@ -16,6 +16,7 @@ define([
         /** @inheritdoc */
         _create: function () {
             $(this.element).submit(this.submitForm.bind(this));
+            this.checkBtnSubmit(this.options.cookieName);
         },
 
         /**
@@ -71,12 +72,7 @@ define([
                             }
                         );
                         $('#btn-ask-question').attr('disabled', 'disabled');
-                        var checkCookie = setInterval(function () {
-                            if (!$.mage.cookies.get(self.options.cookieName)) {
-                                $('#btn-ask-question').removeAttr('disabled');
-                                clearInterval(checkCookie);
-                            }
-                        }, 1000);
+                        this.checkBtnSubmit(self.options.cookieName);
                     }
                 },
 
@@ -97,6 +93,20 @@ define([
          */
         validateForm: function () {
             return $(this.element).validation().valid();
+        },
+
+        /**
+         * Check enable/disable btn submit
+         */
+        checkBtnSubmit: function (cookieName) {
+            var checkCookie = setInterval(function () {
+                if (!$.mage.cookies.get(cookieName)) {
+                    $('#btn-ask-question').removeAttr('disabled');
+                    clearInterval(checkCookie);
+                } else {
+                    $('#btn-ask-question').attr('disabled', 'disabled');
+                }
+            }, 1000);
         }
     });
 
