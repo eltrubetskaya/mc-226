@@ -5,6 +5,7 @@ return [
         'Magento_Directory' => 1,
         'Magento_Eav' => 1,
         'Magento_Theme' => 1,
+        'ElTrubetskaia_AskQuestion' => 1,
         'ElTrubetskaia_Lesson3' => 1,
         'ElTrubetskaia_Lesson4' => 1,
         'ElTrubetskaia_Lesson5' => 1,
