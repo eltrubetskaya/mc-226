@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="ElTrubetskaia\CustomWidget\Block\Widget\BannerHomepage"
+            id="banner_homepage_widget"
+            placeholder_image="Magento_Cms::images/widget_block.png">
+        <label>Banner Home Page</label>
+        <description>Contents of a Banner Home Page</description>
+        <parameters>
+            <parameter name="widget_title" xsi:type="text"
+                       visible="true"
+                       required="true"
+                       sort_order="20">
+                <label translate="true">
+                    Title
+                </label>
+            </parameter>
+            <parameter name="block_id" xsi:type="block"
+                       visible="true"
+                       required="true"
+                       sort_order="20">
+                <label translate="true">
+                    Block
+                </label>
+                <block class="Magento\Cms\Block\Adminhtml\Block\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Block...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="10">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="Magento_Cms::widget/static_block/default.phtml" selected="true">
+                        <label translate="true">CMS Static Block Default Template</label>
+                    </option>
+                    <option name="banner-home-page" value="ElTrubetskaia_CustomWidget::widget/banner-home-page.phtml">
+                        <label translate="true">CMS Block Banner Home Page</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="content">
+                <template name="grid" value="default" />
+            </container>
+            <container name="content.top">
+                <template name="grid" value="default" />
+            </container>
+        </containers>
+    </widget>
+</widgets>

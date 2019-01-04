@@ -1,0 +1,13 @@
+<?php
+/* @var $block \ElTrubetskaia\CustomWidget\Block\Widget\BannerHomepage */
+?>
+<main>
+    <div class="media">
+        <div class="media-body">
+            <img width="600" class="media-object" src="<?= $block->getViewFileUrl('ElTrubetskaia_CustomWidget::images/banner.png') ?>"/>
+            <?php if($block->getWidgetTitle()): ?>
+                <a id="widget-banner-homepage" class="action primary" href="<?= $block->getUrl('geekhub-cms') ?>"><?php echo $block->getWidgetTitle(); ?></a>
+            <?php endif; ?>
+        </div>
+    </div>
+</main>
