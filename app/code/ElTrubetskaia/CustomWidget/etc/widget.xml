@@ -1,10 +1,9 @@
 <?xml version="1.0" ?>
-
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
     <widget class="ElTrubetskaia\CustomWidget\Block\Widget\BannerHomepage"
             id="banner_homepage_widget"
             placeholder_image="Magento_Cms::images/widget_block.png">
-        <label>Banner Home Page</label>
+        <label translate="true">Banner Home Page</label>
         <description>Contents of a Banner Home Page</description>
         <parameters>
             <parameter name="widget_title" xsi:type="text"
