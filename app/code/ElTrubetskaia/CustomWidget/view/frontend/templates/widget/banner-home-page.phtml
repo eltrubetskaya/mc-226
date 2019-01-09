@@ -1,12 +1,14 @@
-<?php
+<?php use Magento\Cms\Block\Block;
+
 /* @var $block \ElTrubetskaia\CustomWidget\Block\Widget\BannerHomepage */
+
 ?>
 
 <?php if($block->getBlockId()): ?>
     <main>
         <div class="media">
             <div class="media-body">
-                <img width="600" class="media-object" src="<?= $block->getViewFileUrl('ElTrubetskaia_CustomWidget::images/banner.png') ?>"/>
+                <?= $block->getLayout()->createBlock(Block::class)->setBlockId($block->getBlockId())->toHtml();?>
                 <?php if($block->getWidgetTitle()): ?>
                     <a id="widget-banner-homepage" class="action primary" href="<?= $block->getUrl('geekhub-cms') ?>"><?php echo $block->getWidgetTitle(); ?></a>
                 <?php endif; ?>
