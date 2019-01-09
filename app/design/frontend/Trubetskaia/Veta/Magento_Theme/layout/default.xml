@@ -7,5 +7,13 @@
                 <argument name="logo_img_height" xsi:type="number">150</argument>
             </arguments>
         </referenceBlock>
+        <referenceContainer name="catalog.topnav">
+            <block class="Magento\Framework\View\Element\Html\Link\Current" name="geekhub-cms" before="-">
+                <arguments>
+                    <argument name="label" xsi:type="string">Geekhub Cms</argument>
+                    <argument name="path" xsi:type="string">geekhub-cms</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
     </body>
 </page>
