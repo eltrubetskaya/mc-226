@@ -64,7 +64,7 @@ class Index extends \Magento\Framework\App\Action\Action
             $askQuestion = $this->askQuestionFactory->create();
             $askQuestion->setName($request->getParam('name'))
                 ->setEmail($request->getParam('email'))
-                ->setPhone($request->getParam('phone'))
+                ->setPhone($request->getParam('telephone'))
                 ->setSku($request->getParam('sku'))
                 ->setQuestion($request->getParam('question'));
             $askQuestion->save();
