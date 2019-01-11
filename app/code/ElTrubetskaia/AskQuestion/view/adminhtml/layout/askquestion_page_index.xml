@@ -2,11 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Framework\View\Element\Text" name="some_text">
-                <action method="setText">
-                    <argument name="text" xsi:type="string">TODO: ask question listing</argument>
-                </action>
-            </block>
+            <uiComponent name="ask_question_listing"/>
         </referenceContainer>
     </body>
 </page>
