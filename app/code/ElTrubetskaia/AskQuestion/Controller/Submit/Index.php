@@ -2,8 +2,12 @@
 
 namespace ElTrubetskaia\AskQuestion\Controller\Submit;
 
+use ElTrubetskaia\AskQuestion\Model\AskQuestion;
+use ElTrubetskaia\AskQuestion\Model\AskQuestionFactory;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Exception\LocalizedException;
 
 class Index extends \Magento\Framework\App\Action\Action
@@ -13,25 +17,34 @@ class Index extends \Magento\Framework\App\Action\Action
     private const STATUS_SUCCESS = 'Success';
 
     /**
-     * @var \Magento\Framework\Data\Form\FormKey\Validator
+     * @var Validator
      */
     private $formKeyValidator;
 
     /**
+     * @var AskQuestionFactory
+     */
+    private $askQuestionFactory;
+
+    /**
      * Index constructor.
-     * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
-     * @param \Magento\Framework\App\Action\Context $context
+     * @param Validator $formKeyValidator
+     * @param AskQuestionFactory $askQuestionFactory
+     * @param Context $context
      */
     public function __construct(
-        \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
-        \Magento\Framework\App\Action\Context $context
+        Validator $formKeyValidator,
+        AskQuestionFactory $askQuestionFactory,
+        Context $context
     ) {
         parent::__construct($context);
         $this->formKeyValidator = $formKeyValidator;
+        $this->askQuestionFactory = $askQuestionFactory;
     }
 
     /**
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     * @throws \Exception
      */
     public function execute()
     {
@@ -47,9 +60,14 @@ class Index extends \Magento\Framework\App\Action\Action
                 throw new LocalizedException(__('This request is not valid and can not be processed.'));
             }
 
-            // @TODO: #111 Backend form validation
-            // Here we must also process backend validation or all form fields.
-            // Otherwise attackers can just copy our page, remove fields validation and send anything they want
+            /** @var AskQuestion $askQuestion */
+            $askQuestion = $this->askQuestionFactory->create();
+            $askQuestion->setName($request->getParam('name'))
+                ->setEmail($request->getParam('email'))
+                ->setPhone($request->getParam('phone'))
+                ->setSku($request->getParam('sku'))
+                ->setQuestion($request->getParam('question'));
+            $askQuestion->save();
 
             $data = [
                 'status' => self::STATUS_SUCCESS,
