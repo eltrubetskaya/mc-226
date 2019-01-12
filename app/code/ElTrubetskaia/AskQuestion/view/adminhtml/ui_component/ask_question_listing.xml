@@ -18,7 +18,7 @@
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <aclResource>Magento_Cms::block</aclResource>
+        <aclResource>Magento_Backend::admin</aclResource>
         <dataProvider class="Magento\Cms\Ui\Component\DataProvider" name="ask_question_listing_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
@@ -79,19 +79,19 @@
                 <!--</settings>-->
             <!--</action>-->
         <!--</massaction>-->
-        <paging name="listing_paging"/>
+        <!--<paging name="listing_paging"/>-->
     </listingToolbar>
     <columns name="ask_question_columns">
         <settings>
-            <!--<editorConfig>-->
-                <!--<param name="clientConfig" xsi:type="array">-->
-                    <!--<item name="saveUrl" xsi:type="url" path="cms/block/inlineEdit"/>-->
-                    <!--<item name="validateBeforeSave" xsi:type="boolean">false</item>-->
-                <!--</param>-->
-                <!--<param name="indexField" xsi:type="string">block_id</param>-->
-                <!--<param name="enabled" xsi:type="boolean">true</param>-->
-                <!--<param name="selectProvider" xsi:type="string">cms_block_listing.cms_block_listing.cms_block_columns.ids</param>-->
-            <!--</editorConfig>-->
+            <editorConfig>
+                <param name="clientConfig" xsi:type="array">
+                    <item name="saveUrl" xsi:type="url" path="askquestion/page/inlineEdit"/>
+                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                </param>
+                <param name="indexField" xsi:type="string">question_id</param>
+                <param name="enabled" xsi:type="boolean">true</param>
+                <param name="selectProvider" xsi:type="string">ask_question_listing.ask_question_listing.ask_question_columns.ids</param>
+            </editorConfig>
             <childDefaults>
                 <param name="fieldAction" xsi:type="array">
                     <item name="provider" xsi:type="string">ask_question_listing.ask_question_listing.ask_question_columns_editor</item>
@@ -124,20 +124,7 @@
                     </validation>
                     <editorType>text</editorType>
                 </editor>
-                <label translate="true">FullName</label>
-            </settings>
-        </column>
-        <column name="identifier">
-            <settings>
-                <filter>text</filter>
-                <editor>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">true</rule>
-                        <rule name="validate-xml-identifier" xsi:type="boolean">true</rule>
-                    </validation>
-                    <editorType>text</editorType>
-                </editor>
-                <label translate="true">Identifier</label>
+                <label translate="true">Name</label>
             </settings>
         </column>
         <column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store">
@@ -147,7 +134,7 @@
                 <sortable>false</sortable>
             </settings>
         </column>
-        <!--<column name="is_active" component="Magento_Ui/js/grid/columns/select">-->
+        <!--<column name="status" component="Magento_Ui/js/grid/columns/select">-->
             <!--<settings>-->
                 <!--<options class="Magento\Cms\Model\Block\Source\IsActive"/>-->
                 <!--<filter>select</filter>-->
@@ -158,21 +145,21 @@
                 <!--<label translate="true">Status</label>-->
             <!--</settings>-->
         <!--</column>-->
-        <column name="creation_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
             <settings>
                 <filter>dateRange</filter>
                 <dataType>date</dataType>
                 <label translate="true">Created</label>
             </settings>
         </column>
-        <column name="update_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+        <column name="updated_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
             <settings>
                 <filter>dateRange</filter>
                 <dataType>date</dataType>
                 <label translate="true">Modified</label>
             </settings>
         </column>
-        <actionsColumn name="actions" class="Magento\Cms\Ui\Component\Listing\Column\BlockActions">
+        <actionsColumn name="actions" class="ElTrubetskaia\AskQuestion\Ui\Component\Listing\Column\Actions">
             <settings>
                 <indexField>question_id</indexField>
             </settings>
