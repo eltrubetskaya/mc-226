@@ -114,7 +114,12 @@
                 <sortable>false</sortable>
             </settings>
         </column>
-        <column name="status" component="Magento_Ui/js/grid/columns/select">
+        <column name="status" component="ElTrubetskaia_AskQuestion/js/grid/columns/select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="additionalCustomClass" xsi:type="string">bold</item>
+                </item>
+            </argument>
             <settings>
                 <options class="ElTrubetskaia\AskQuestion\Model\Config\Source\Status"/>
                 <filter>select</filter>
@@ -122,6 +127,7 @@
                     <editorType>select</editorType>
                 </editor>
                 <dataType>select</dataType>
+                <bodyTmpl>ElTrubetskaia_AskQuestion/grid/cells/text</bodyTmpl>
                 <label translate="true">Status</label>
             </settings>
         </column>
