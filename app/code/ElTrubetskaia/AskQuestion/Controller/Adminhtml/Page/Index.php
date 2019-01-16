@@ -45,9 +45,6 @@ class Index extends \Magento\Backend\App\Action
         $resultPage->addBreadcrumb(__('Manage'), __('Manage'));
         $resultPage->getConfig()->getTitle()->prepend(__('AskQuestion content'));
 
-        $dataPersistor = $this->_objectManager->get(\Magento\Framework\App\Request\DataPersistorInterface::class);
-        $dataPersistor->clear('ask_question');
-
         return $resultPage;
     }
 }
