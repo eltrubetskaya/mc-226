@@ -1,4 +1,4 @@
-<?php /** @var $block \Magento\Catalog\Block\Product\View */ ?>
+<?php /** @var \Magento\Catalog\Block\Product\View $block */ ?>
 <div class="catalog-product-view-tab-ask-question-form">
     <h2><?= $block->escapeHtml(__('Ask Question')) ?></h2>
     <div>
@@ -89,3 +89,5 @@
         </form>
     </div>
 </div>
+
+<?= $block->getChildHtml('question.list') ?>
