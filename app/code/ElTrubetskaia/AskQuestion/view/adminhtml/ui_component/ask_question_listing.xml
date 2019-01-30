@@ -56,18 +56,31 @@
                 </settings>
             </filterSelect>
         </filters>
-        <!--<massaction name="listing_massaction">-->
-            <!--<action name="edit">-->
-                <!--<settings>-->
-                    <!--<callback>-->
-                        <!--<target>editSelected</target>-->
-                        <!--<provider>ask_question_listing.ask_question_listing.ask_question_columns_editor</provider>-->
-                    <!--</callback>-->
-                    <!--<type>edit</type>-->
-                    <!--<label translate="true">Edit</label>-->
-                <!--</settings>-->
-            <!--</action>-->
-        <!--</massaction>-->
+        <massaction name="listing_massaction"
+                    component="Magento_Ui/js/grid/tree-massactions">
+            <action name="status">
+                <settings>
+                    <type>status</type>
+                    <label translate="true">Change status</label>
+                    <actions>
+                        <action name="0">
+                            <type>Processed</type>
+                            <label translate="true">Processed</label>
+                            <url path="askquestion/page/massStatus">
+                                <param name="status">Processed</param>
+                            </url>
+                        </action>
+                        <action name="1">
+                            <type>Pending</type>
+                            <label translate="true">Pending</label>
+                            <url path="askquestion/page/massStatus">
+                                <param name="status">Pending</param>
+                            </url>
+                        </action>
+                    </actions>
+                </settings>
+            </action>
+        </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="ask_question_columns">
