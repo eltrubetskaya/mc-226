@@ -63,7 +63,7 @@ class MassStatus extends \Magento\Backend\App\Action
 
             return $this->massAction($collection);
         } catch (\Exception $e) {
-            $this->messageManager->addError($e->getMessage());
+            $this->messageManager->addErrorMessage($e->getMessage());
             /** @var Redirect $resultRedirect */
             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
@@ -75,17 +75,17 @@ class MassStatus extends \Magento\Backend\App\Action
      * @param AbstractCollection $collection
      * @return Redirect
      */
-    private function massAction(AbstractCollection $collection)
+    private function massAction(AbstractCollection $collection): Redirect
     {
-        $rateChangeStatus = 0;
+        $count = 0;
 
-        foreach ($collection as $rate) {
-            $rate->setStatus($this->getRequest()->getParam('status'))->save();
-            $rateChangeStatus++;
+        foreach ($collection as $question) {
+            $question->setStatus($this->getRequest()->getParam('status'))->save();
+            $count++;
         }
 
-        if ($rateChangeStatus) {
-            $this->messageManager->addSuccess(__('A total of %1 record(s) were updated.', $rateChangeStatus));
+        if ($count) {
+            $this->messageManager->addSuccessMessage(__('A total of %1 record(s) were updated.', $count));
         }
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
