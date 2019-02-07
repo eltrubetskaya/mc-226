@@ -27,7 +27,9 @@ class ChangeStatus
         $collection = $this->collectionFactory->create()->load();
         /** @var AskQuestion $item */
         foreach ($collection as $item) {
-
+            if ($item->getStatus() === AskQuestion::STATUS_PENDING) {
+                $item->setStatus(AskQuestion::STATUS_PROCESSED)->save();
+            }
         }
     }
 }
