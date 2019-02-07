@@ -9,12 +9,24 @@ class ListMode implements \Magento\Framework\Option\ArrayInterface
      *
      * @codeCoverageIgnore
      */
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         return [
-            ['value' => '1', 'label' => __('Once a Day')],
-            ['value' => '3', 'label' => __('Every 3 Days')],
-            ['value' => '7', 'label' => __('Once a Week')],
+            [
+                'value' => '0 0 * * *',
+                'label' => __('Daily'),
+                'days' => 1
+            ],
+            [
+                'value' => '0 0 1-30/3 * *',
+                'label' => __('Every 3 Days'),
+                'days' => 3
+            ],
+            [
+                'value' => '0 0 * * 4',
+                'label' => __('Weekly'),
+                'days' => 7
+            ],
         ];
     }
 }
