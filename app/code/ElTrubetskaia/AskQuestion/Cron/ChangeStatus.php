@@ -11,6 +11,9 @@ use ElTrubetskaia\AskQuestion\Model\ResourceModel\AskQuestion\CollectionFactory;
 
 class ChangeStatus
 {
+    /**
+     * Configuration path to customer Ask a Question cron schedule
+     */
     private const XML_PATH_ASK_QUESTION_CRON_SCHEDULE = 'catalog/ask_question_cron_job/ask_question_cron_schedule';
 
     /**
@@ -31,9 +34,13 @@ class ChangeStatus
     /**
      * @param CollectionFactory $collectionFactory
      * @param ScopeConfigInterface $scopeConfig
+     * @param ListMode $listMode
      */
-    public function __construct(CollectionFactory $collectionFactory, ScopeConfigInterface $scopeConfig, ListMode $listMode)
-    {
+    public function __construct(
+        CollectionFactory $collectionFactory,
+        ScopeConfigInterface $scopeConfig,
+        ListMode $listMode
+    ) {
         $this->collectionFactory = $collectionFactory;
         $this->scopeConfig = $scopeConfig;
         $this->listMode = $listMode;
