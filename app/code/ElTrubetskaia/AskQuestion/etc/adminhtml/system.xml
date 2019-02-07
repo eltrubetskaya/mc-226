@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="catalog">
+            <tab>catalog</tab>
+            <group id="ask_question_cron_job" translate="label" type="text" sortOrder="2000" showInDefault="0" showInWebsite="1" showInStore="1">
+                <label>Ask a Question Cron Job</label>
+                <field id="ask_question_cron_job_days" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Change status in </label>
+                    <source_model>ElTrubetskaia\AskQuestion\Model\Config\Source\ListMode</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
