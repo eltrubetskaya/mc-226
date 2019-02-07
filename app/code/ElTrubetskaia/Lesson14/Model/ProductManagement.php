@@ -55,6 +55,10 @@ class ProductManagement
 
         $product = $this->productRepository->getById($productId);
 
+        if (!is_numeric($quantity)) {
+            throw new \InvalidArgumentException(__('Type of quantity must be float or integer'));
+        }
+
         $stockItem = $this->stockRegistry->getStockItemBySku($product->getSku());
         $stockItem->setQty($quantity);
         $this->stockRegistry->updateStockItemBySku($product->getSku(), $stockItem);
