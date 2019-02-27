@@ -2,6 +2,7 @@
 
 namespace ElTrubetskaia\AskQuestion\Controller\Submit;
 
+use ElTrubetskaia\AskQuestion\Api\AskQuestionRepositoryInterface;
 use ElTrubetskaia\AskQuestion\Model\AskQuestion;
 use ElTrubetskaia\AskQuestion\Model\AskQuestionFactory;
 use Magento\Framework\App\Action\Context;
@@ -27,19 +28,27 @@ class Index extends \Magento\Framework\App\Action\Action
     private $askQuestionFactory;
 
     /**
+     * @var AskQuestionRepositoryInterface
+     */
+    private $askQuestionRepository;
+
+    /**
      * Index constructor.
      * @param Validator $formKeyValidator
      * @param AskQuestionFactory $askQuestionFactory
+     * @param AskQuestionRepositoryInterface $askQuestionRepository
      * @param Context $context
      */
     public function __construct(
         Validator $formKeyValidator,
         AskQuestionFactory $askQuestionFactory,
+        AskQuestionRepositoryInterface $askQuestionRepository,
         Context $context
     ) {
         parent::__construct($context);
         $this->formKeyValidator = $formKeyValidator;
         $this->askQuestionFactory = $askQuestionFactory;
+        $this->askQuestionRepository = $askQuestionRepository;
     }
 
     /**
@@ -67,7 +76,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 ->setPhone($request->getParam('telephone'))
                 ->setSku($request->getParam('sku'))
                 ->setQuestion($request->getParam('question'));
-            $askQuestion->save();
+            $this->askQuestionRepository->save($askQuestion);
 
             $data = [
                 'status' => self::STATUS_SUCCESS,
