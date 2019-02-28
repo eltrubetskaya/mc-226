@@ -2,12 +2,13 @@
 
 namespace ElTrubetskaia\AskQuestion\Cron;
 
+use ElTrubetskaia\AskQuestion\Api\AskQuestionRepositoryInterface;
+use ElTrubetskaia\AskQuestion\Api\Data\AskQuestionInterface;
 use ElTrubetskaia\AskQuestion\Model\Config\Source\ListMode;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use ElTrubetskaia\AskQuestion\Model\AskQuestion;
-use ElTrubetskaia\AskQuestion\Model\ResourceModel\AskQuestion\Collection;
-use ElTrubetskaia\AskQuestion\Model\ResourceModel\AskQuestion\CollectionFactory;
 
 class ChangeStatus
 {
@@ -15,11 +16,6 @@ class ChangeStatus
      * Configuration path to customer Ask a Question cron schedule
      */
     private const XML_PATH_ASK_QUESTION_CRON_SCHEDULE = 'catalog/ask_question_cron_job/ask_question_cron_schedule';
-
-    /**
-     * @var CollectionFactory
-     */
-    private $collectionFactory;
 
     /**
      * @var ScopeConfigInterface
@@ -32,29 +28,45 @@ class ChangeStatus
     private $listMode;
 
     /**
-     * @param CollectionFactory $collectionFactory
+     * @var AskQuestionRepositoryInterface
+     */
+    private $askQuestionRepository;
+
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param ListMode $listMode
+     * @param AskQuestionRepositoryInterface $askQuestionRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        CollectionFactory $collectionFactory,
         ScopeConfigInterface $scopeConfig,
-        ListMode $listMode
+        ListMode $listMode,
+        AskQuestionRepositoryInterface $askQuestionRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
-        $this->collectionFactory = $collectionFactory;
         $this->scopeConfig = $scopeConfig;
         $this->listMode = $listMode;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->askQuestionRepository = $askQuestionRepository;
     }
 
+    /**
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
     public function execute(): void
     {
-        /** @var Collection $collection */
-        $collection = $this->collectionFactory->create()->load();
-        /** @var AskQuestion $item */
-        foreach ($collection as $item) {
-            if ($item->getStatus() === AskQuestion::STATUS_PENDING) {
-                $item->setStatus(AskQuestion::STATUS_PROCESSED)->save();
-            }
+        $searchCriteria = $this->searchCriteriaBuilder->addFilter('status', AskQuestion::STATUS_PENDING)->create();
+        $questions = $this->askQuestionRepository->getList($searchCriteria);
+        foreach ($questions->getItems() as $item) {
+            /** @var AskQuestionInterface $question */
+            $question = $this->askQuestionRepository->getById($item['question_id']);
+            $question->setStatus(AskQuestion::STATUS_PROCESSED);
+            $this->askQuestionRepository->save($question);
         }
     }
 
