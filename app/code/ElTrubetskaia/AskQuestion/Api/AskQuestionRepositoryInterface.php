@@ -39,7 +39,7 @@ interface AskQuestionRepositoryInterface
      * @return AskQuestionSearchResultsInterface
      * @throws LocalizedException
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): AskQuestionSearchResultsInterface;
+    public function getList(SearchCriteriaInterface $searchCriteria);
 
     /**
      * Delete question.

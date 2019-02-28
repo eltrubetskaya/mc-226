@@ -5,16 +5,14 @@ namespace ElTrubetskaia\AskQuestion\Model;
 use ElTrubetskaia\AskQuestion\Api\AskQuestionRepositoryInterface;
 use ElTrubetskaia\AskQuestion\Api\Data\AskQuestionInterface;
 use ElTrubetskaia\AskQuestion\Api\Data\AskQuestionSearchResultsInterface;
-use Magento\Framework\Api\DataObjectHelper;
+use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Reflection\DataObjectProcessor;
-use ElTrubetskaia\AskQuestion\Api\Data\AskQuestionInterfaceFactory;
 use ElTrubetskaia\AskQuestion\Api\Data\AskQuestionSearchResultsInterfaceFactory;
+use ElTrubetskaia\AskQuestion\Model\ResourceModel\AskQuestion\Collection;
 use ElTrubetskaia\AskQuestion\Model\ResourceModel\AskQuestion as ResourceAskQuestion;
 use ElTrubetskaia\AskQuestion\Model\ResourceModel\AskQuestion\CollectionFactory as AskQuestionCollectionFactory;
 
@@ -25,56 +23,42 @@ use ElTrubetskaia\AskQuestion\Model\ResourceModel\AskQuestion\CollectionFactory 
 class AskQuestionRepository implements AskQuestionRepositoryInterface
 {
     /**
+     * @var CollectionProcessorInterface
+     */
+    private $collectionProcessor;
+
+    /**
      * @var ResourceAskQuestion
      */
-    protected $resource;
+    private $resource;
 
     /**
      * @var AskQuestionFactory
      */
-    protected $askQuestionFactory;
+    private $askQuestionFactory;
 
     /**
      * @var AskQuestionCollectionFactory
      */
-    protected $askQuestionCollectionFactory;
+    private $askQuestionCollectionFactory;
 
     /**
      * @var AskQuestionSearchResultsInterfaceFactory
      */
-    protected $searchResultsFactory;
-
-    /**
-     * @var DataObjectHelper
-     */
-    protected $dataObjectHelper;
-
-    /**
-     * @var DataObjectProcessor
-     */
-    protected $dataObjectProcessor;
-
-    /**
-     * @var AskQuestionInterfaceFactory
-     */
-    protected $dataAskQuestionFactory;
+    private $searchResultsFactory;
 
     public function __construct(
         ResourceAskQuestion $resource,
         AskQuestionFactory $askQuestionFactory,
-        AskQuestionInterfaceFactory $dataAskQuestionFactory,
         AskQuestionCollectionFactory $askQuestionCollectionFactory,
         AskQuestionSearchResultsInterfaceFactory $searchResultsFactory,
-        DataObjectHelper $dataObjectHelper,
-        DataObjectProcessor $dataObjectProcessor
+        CollectionProcessorInterface $collectionProcessor
     ) {
         $this->resource = $resource;
         $this->askQuestionFactory = $askQuestionFactory;
         $this->askQuestionCollectionFactory = $askQuestionCollectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
-        $this->dataObjectHelper = $dataObjectHelper;
-        $this->dataAskQuestionFactory = $dataAskQuestionFactory;
-        $this->dataObjectProcessor = $dataObjectProcessor;
+        $this->collectionProcessor = $collectionProcessor;
     }
 
     /**
@@ -87,6 +71,7 @@ class AskQuestionRepository implements AskQuestionRepositoryInterface
     public function save(AskQuestionInterface $askQuestion): AskQuestionInterface
     {
         try {
+            /** @var AskQuestion $askQuestion */
             $this->resource->save($askQuestion);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));
@@ -104,8 +89,10 @@ class AskQuestionRepository implements AskQuestionRepositoryInterface
      */
     public function getById($askQuestionId): AskQuestionInterface
     {
+        /** @var AskQuestion $askQuestion */
         $askQuestion = $this->askQuestionFactory->create();
-        $askQuestion->load($askQuestionId);
+        $this->resource->load($askQuestion, $askQuestionId);
+
         if (!$askQuestion->getId()) {
             throw new NoSuchEntityException(__('Question with id "%1" does not exist.', $askQuestionId));
         }
@@ -119,44 +106,16 @@ class AskQuestionRepository implements AskQuestionRepositoryInterface
      * @param SearchCriteriaInterface $searchCriteria
      * @return AskQuestionSearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): AskQuestionSearchResultsInterface
+    public function getList(SearchCriteriaInterface $searchCriteria)
     {
+        /** @var Collection $collection */
+        $collection = $this->askQuestionCollectionFactory->create();
+        $this->collectionProcessor->process($searchCriteria, $collection);
+
+        /** @var AskQuestionSearchResultsInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($searchCriteria);
-        $collection = $this->askQuestionCollectionFactory->create();
-        foreach ($searchCriteria->getFilterGroups() as $filterGroup) {
-            foreach ($filterGroup->getFilters() as $filter) {
-                $condition = $filter->getConditionType() ?: 'eq';
-                $collection->addFieldToFilter($filter->getField(), [$condition => $filter->getValue()]);
-            }
-        }
-        $searchResults->setTotalCount($collection->getSize());
-        $sortOrders = $searchCriteria->getSortOrders();
-        if ($sortOrders) {
-            foreach ($sortOrders as $sortOrder) {
-                $collection->addOrder(
-                    $sortOrder->getField(),
-                    ($sortOrder->getDirection() == SortOrder::SORT_ASC) ? 'ASC' : 'DESC'
-                );
-            }
-        }
-        $collection->setCurPage($searchCriteria->getCurrentPage());
-        $collection->setPageSize($searchCriteria->getPageSize());
-        $askQuestions = [];
-        /** @var AskQuestion $askQuestionModel */
-        foreach ($collection as $askQuestionModel) {
-            $askQuestionData = $this->dataAskQuestionFactory->create();
-            $this->dataObjectHelper->populateWithArray(
-                $askQuestionData,
-                $askQuestionModel->getData(),
-                AskQuestionInterface::class
-            );
-            $askQuestions[] = $this->dataObjectProcessor->buildOutputDataArray(
-                $askQuestionData,
-                AskQuestionInterface::class
-            );
-        }
-        $searchResults->setItems($askQuestions);
+        $searchResults->setItems($collection->getItems());
 
         return $searchResults;
     }
@@ -171,6 +130,7 @@ class AskQuestionRepository implements AskQuestionRepositoryInterface
     public function delete(AskQuestionInterface $askQuestion): bool
     {
         try {
+            /** @var AskQuestion $askQuestion */
             $this->resource->delete($askQuestion);
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__(

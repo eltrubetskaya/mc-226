@@ -69,7 +69,7 @@ class AskQuestion extends AbstractModel implements AskQuestionInterface
     /**
      * {@inheritdoc}
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?string
     {
         return $this->getData('created_at');
     }
@@ -77,7 +77,7 @@ class AskQuestion extends AbstractModel implements AskQuestionInterface
     /**
      * {@inheritdoc}
      */
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): ?string
     {
         return $this->getData('updated_at');
     }
