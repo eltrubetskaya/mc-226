@@ -8,6 +8,13 @@
                         <resource id="ElTrubetskaia_AskQuestion::ask_question" title="AskQuestion" translate="title" sortOrder="30" />
                     </resource>
                 </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="ElTrubetskaia_AskQuestion::ask_question_management_settings" title="Ask a Question Managements Settings"/>
+                        </resource>
+                    </resource>
+                </resource>
             </resource>
         </resources>
     </acl>
