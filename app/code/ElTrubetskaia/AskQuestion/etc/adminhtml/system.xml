@@ -28,13 +28,35 @@
                     <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\Enabled</backend_model>
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Frequency</label>
+                    <label>Change status in</label>
                     <comment>Cron schedule</comment>
                     <depends>
                         <field id="enable_auto_confirming">1</field>
                     </depends>
                     <source_model>ElTrubetskaia\AskQuestion\Model\Config\Source\ListMode</source_model>
                     <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\Cron</backend_model>
+                </field>
+            </group>
+            <group id="test" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label> Test</label>
+                <depends>
+                    <field id="ask_question/general/enable">1</field>
+                </depends>
+                <field id="input" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text</label>
+                </field>
+                <field id="test_frequency" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Frequency</label>
+                    <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                </field>
+                <field id="select" translate="label" type="multiselect" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Multi Select</label>
+                    <source_model>ElTrubetskaia\AskQuestion\Model\Config\Source\ListMode</source_model>
+                </field>
+                <field id="dynamical_row" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Dynamical Row</label>
+                    <frontend_model>ElTrubetskaia\AskQuestion\Block\Adminhtml\Form\Field\AdditionalEmail</frontend_model>
+                    <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\AdditionalEmail</backend_model>
                 </field>
             </group>
         </section>
