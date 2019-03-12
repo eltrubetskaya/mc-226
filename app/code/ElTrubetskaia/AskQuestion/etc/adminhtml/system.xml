@@ -14,13 +14,18 @@
                 <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Module Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\Enabled</backend_model>
                 </field>
             </group>
             <group id="cron" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label> Cron Job</label>
+                <depends>
+                    <field id="ask_question/general/enable">1</field>
+                </depends>
                 <field id="enable_auto_confirming" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable auto confirming</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\Enabled</backend_model>
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Frequency</label>
