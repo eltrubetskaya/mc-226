@@ -1,14 +1,40 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <section id="catalog">
-            <tab>catalog</tab>
-            <group id="ask_question_cron_job" translate="label" type="text" sortOrder="2000" showInDefault="0" showInWebsite="1" showInStore="1">
-                <label>Ask a Question Cron Job</label>
-                <field id="ask_question_cron_schedule" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Change status in </label>
-                    <source_model>ElTrubetskaia\AskQuestion\Model\Config\Source\ListMode</source_model>
+        <tab id="el_trubetskaia" translate="label" sortOrder="100">
+            <label>ElTrubetskaia</label>
+        </tab>
+        <section id="ask_question" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Ask a Question</label>
+            <tab>el_trubetskaia</tab>
+            <resource>ElTrubetskaia_AskQuestion::ask_question_management_settings</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Module Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\Enabled</backend_model>
+                </field>
+            </group>
+            <group id="cron" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label> Cron Job</label>
+                <depends>
+                    <field id="ask_question/general/enable">1</field>
+                </depends>
+                <field id="enable_auto_confirming" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable auto confirming</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\Enabled</backend_model>
+                </field>
+                <field id="frequency" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Frequency</label>
                     <comment>Cron schedule</comment>
+                    <depends>
+                        <field id="enable_auto_confirming">1</field>
+                    </depends>
+                    <source_model>ElTrubetskaia\AskQuestion\Model\Config\Source\ListMode</source_model>
+                    <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\Cron</backend_model>
                 </field>
             </group>
         </section>
