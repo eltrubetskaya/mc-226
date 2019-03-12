@@ -22,18 +22,14 @@
                     <label>Enable auto confirming</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 </field>
-                <field id="frequency" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="frequency" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Frequency</label>
-                    <depends>
-                        <field id="enabled">1</field>
-                    </depends>
-                    <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
-                    <backend_model>Magento\Backup\Model\Config\Backend\Cron</backend_model>
-                </field>
-                <field id="ask_question_cron_schedule" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Change status in </label>
-                    <source_model>ElTrubetskaia\AskQuestion\Model\Config\Source\ListMode</source_model>
                     <comment>Cron schedule</comment>
+                    <depends>
+                        <field id="enable_auto_confirming">1</field>
+                    </depends>
+                    <source_model>ElTrubetskaia\AskQuestion\Model\Config\Source\ListMode</source_model>
+                    <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\Cron</backend_model>
                 </field>
             </group>
         </section>
