@@ -60,7 +60,7 @@ class Cron extends Value
      */
     public function afterSave()
     {
-        $cronExprString =$this->getValue();
+        $cronExprString = $this->getValue();
 
         try {
             $this->configWriter->save(self::CRON_SCHEDULE_PATH, $cronExprString);
