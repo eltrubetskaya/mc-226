@@ -9,6 +9,7 @@ use Magento\Framework\App\Request\Http;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Exception\LocalizedException;
+use ElTrubetskaia\AskQuestion\Helper\Mail;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
@@ -27,19 +28,27 @@ class Index extends \Magento\Framework\App\Action\Action
     private $askQuestionFactory;
 
     /**
+     * @var Mail
+     */
+    private $mailHelper;
+
+    /**
      * Index constructor.
      * @param Validator $formKeyValidator
      * @param AskQuestionFactory $askQuestionFactory
      * @param Context $context
+     * @param Mail $mailHelper
      */
     public function __construct(
         Validator $formKeyValidator,
         AskQuestionFactory $askQuestionFactory,
-        Context $context
+        Context $context,
+        Mail $mailHelper
     ) {
         parent::__construct($context);
         $this->formKeyValidator = $formKeyValidator;
         $this->askQuestionFactory = $askQuestionFactory;
+        $this->mailHelper = $mailHelper;
     }
 
     /**
@@ -68,6 +77,16 @@ class Index extends \Magento\Framework\App\Action\Action
                 ->setSku($request->getParam('sku'))
                 ->setQuestion($request->getParam('question'));
             $askQuestion->save();
+
+            /**
+             * Send Email
+             */
+            if ($request->getParam('email')) {
+                $email = $request->getParam('email');
+                $customerName = $request->getParam('name');
+                $message = $request->getParam('request');
+                $this->mailHelper->sendMail($email, $message, $customerName);
+            }
 
             $data = [
                 'status' => self::STATUS_SUCCESS,
