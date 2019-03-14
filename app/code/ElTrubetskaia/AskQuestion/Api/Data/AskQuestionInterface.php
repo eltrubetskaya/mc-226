@@ -19,7 +19,8 @@ interface AskQuestionInterface
      * Set ID
      *
      * @param int $id
-     * @return AskQuestionInterface
+     *
+     * @return $this
      */
     public function setId($id);
 
@@ -48,7 +49,8 @@ interface AskQuestionInterface
      * Set name
      *
      * @param string $name
-     * @return AskQuestionInterface
+     *
+     * @return $this
      */
     public function setName($name);
 
@@ -63,7 +65,8 @@ interface AskQuestionInterface
      * Set email
      *
      * @param string $email
-     * @return AskQuestionInterface
+     *
+     * @return $this
      */
     public function setEmail($email);
 
@@ -78,7 +81,8 @@ interface AskQuestionInterface
      * Set phone
      *
      * @param string $phone
-     * @return AskQuestionInterface
+     *
+     * @return $this
      */
     public function setPhone($phone);
 
@@ -93,7 +97,8 @@ interface AskQuestionInterface
      * Set sku
      *
      * @param string $sku
-     * @return AskQuestionInterface
+     *
+     * @return $this
      */
     public function setSku($sku);
 
@@ -108,7 +113,8 @@ interface AskQuestionInterface
      * Set question
      *
      * @param string $question
-     * @return AskQuestionInterface
+     *
+     * @return $this
      */
     public function setQuestion($question);
 
@@ -123,7 +129,8 @@ interface AskQuestionInterface
      * Set status
      *
      * @param string $status
-     * @return AskQuestionInterface
+     *
+     * @return $this
      */
     public function setStatus($status);
 
@@ -138,7 +145,8 @@ interface AskQuestionInterface
      * Set store ID
      *
      * @param int $storeId
-     * @return AskQuestionInterface
+     *
+     * @return $this
      */
     public function setStoreId($storeId);
 }

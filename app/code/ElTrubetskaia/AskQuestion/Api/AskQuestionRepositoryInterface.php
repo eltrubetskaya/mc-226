@@ -17,26 +17,27 @@ interface AskQuestionRepositoryInterface
     /**
      * Save question.
      *
-     * @param AskQuestionInterface $askQuestion
-     * @return AskQuestionInterface
+     * @param \ElTrubetskaia\AskQuestion\Api\Data\AskQuestionInterface $askQuestion
+     * @return \ElTrubetskaia\AskQuestion\Api\Data\AskQuestionInterface
      * @throws LocalizedException
      */
-    public function save(AskQuestionInterface $askQuestion): AskQuestionInterface;
+    public function save(AskQuestionInterface $askQuestion);
 
     /**
      * Retrieve question.
      *
      * @param int $askQuestionId
-     * @return AskQuestionInterface
+     * @return \ElTrubetskaia\AskQuestion\Api\Data\AskQuestionInterface
      * @throws LocalizedException
      */
-    public function getById($askQuestionId): AskQuestionInterface;
+    public function getById($askQuestionId);
 
     /**
      * Retrieve questions matching the specified criteria.
      *
-     * @param SearchCriteriaInterface $searchCriteria
-     * @return AskQuestionSearchResultsInterface
+     * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
+     * @return \ElTrubetskaia\AskQuestion\Api\Data\AskQuestionSearchResultsInterface
+     *
      * @throws LocalizedException
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
@@ -44,11 +45,11 @@ interface AskQuestionRepositoryInterface
     /**
      * Delete question.
      *
-     * @param AskQuestionInterface $askQuestion
+     * @param \ElTrubetskaia\AskQuestion\Api\Data\AskQuestionInterface $askQuestion
      * @return bool true on success
      * @throws LocalizedException
      */
-    public function delete(AskQuestionInterface $askQuestion): bool;
+    public function delete(AskQuestionInterface $askQuestion);
 
     /**
      * Delete question by ID.
@@ -58,5 +59,5 @@ interface AskQuestionRepositoryInterface
      * @throws NoSuchEntityException
      * @throws LocalizedException
      */
-    public function deleteById($askQuestionId): bool;
+    public function deleteById($askQuestionId);
 }
