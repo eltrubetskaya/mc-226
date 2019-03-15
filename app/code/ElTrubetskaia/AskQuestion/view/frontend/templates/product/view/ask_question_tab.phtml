@@ -1,4 +1,4 @@
-<?php /** @var $block \Magento\Catalog\Block\Product\View */ ?>
+<?php /** @var \Magento\Catalog\Block\Product\View $block */ ?>
 <div class="catalog-product-view-tab-ask-question-form">
     <h2><?= $block->escapeHtml(__('Ask Question')) ?></h2>
     <div>
@@ -79,6 +79,7 @@
             </fieldset>
             <div class="actions-toolbar">
                 <div class="primary">
+                    <input type="hidden" name="sku" value="<?= $block->escapeHtml($block->getProduct()->getSku()) ?>"/>
                     <input type="hidden" name="hideit" id="hideit" value=""/>
                     <button id="btn-ask-question" type="submit" title="<?= $block->escapeHtmlAttr(__('Submit')) ?>" class="action submit primary">
                         <span><?= $block->escapeHtml(__('Submit')) ?></span>
@@ -88,3 +89,5 @@
         </form>
     </div>
 </div>
+
+<?= $block->getChildHtml('question.list') ?>
