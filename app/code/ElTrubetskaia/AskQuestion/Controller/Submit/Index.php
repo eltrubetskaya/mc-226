@@ -33,22 +33,30 @@ class Index extends \Magento\Framework\App\Action\Action
     private $askQuestionRepository;
 
     /**
+     * @var \ElTrubetskaia\AskQuestion\Helper\Mail
+     */
+    protected $mailHelper;
+
+    /**
      * Index constructor.
      * @param Validator $formKeyValidator
      * @param AskQuestionFactory $askQuestionFactory
      * @param AskQuestionRepositoryInterface $askQuestionRepository
      * @param Context $context
+     * @param \ElTrubetskaia\AskQuestion\Helper\Mail $mailHelper
      */
     public function __construct(
         Validator $formKeyValidator,
         AskQuestionFactory $askQuestionFactory,
         AskQuestionRepositoryInterface $askQuestionRepository,
-        Context $context
+        Context $context,
+        \ElTrubetskaia\AskQuestion\Helper\Mail $mailHelper
     ) {
         parent::__construct($context);
         $this->formKeyValidator = $formKeyValidator;
         $this->askQuestionFactory = $askQuestionFactory;
         $this->askQuestionRepository = $askQuestionRepository;
+        $this->mailHelper = $mailHelper;
     }
 
     /**
@@ -77,6 +85,16 @@ class Index extends \Magento\Framework\App\Action\Action
                 ->setSku($request->getParam('sku'))
                 ->setQuestion($request->getParam('question'));
             $this->askQuestionRepository->save($askQuestion);
+
+            /**
+             * Send Email
+             */
+            if ($this->mailHelper->isEnabledEmailsSending()) {
+                $email = $askQuestion->getEmail();
+                $customerName = $askQuestion->getName();
+                $message = $request->getParam('question');
+                $this->mailHelper->sendMail($email, $message, $customerName);
+            }
 
             $data = [
                 'status' => self::STATUS_SUCCESS,
