@@ -81,10 +81,10 @@ class Index extends \Magento\Framework\App\Action\Action
             /**
              * Send Email
              */
-            if ($request->getParam('email')) {
-                $email = $request->getParam('email');
-                $customerName = $request->getParam('name');
-                $message = $request->getParam('request');
+            if ($this->mailHelper->isEnabledEmailsSending()) {
+                $email = $askQuestion->getEmail();
+                $customerName = $askQuestion->getName();
+                $message = $request->getParam('question');
                 $this->mailHelper->sendMail($email, $message, $customerName);
             }
 

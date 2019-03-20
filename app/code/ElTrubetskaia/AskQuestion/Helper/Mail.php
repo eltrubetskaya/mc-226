@@ -4,15 +4,24 @@ namespace ElTrubetskaia\AskQuestion\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
+use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Framework\Translate\Inline\StateInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\User\Model\User;
-use Magento\User\Model\UserFactory;
 
 class Mail extends AbstractHelper
 {
+    /**
+     * Path to field ask a question module enabled emails sending.
+     */
+    private const XML_PATH_ASK_QUESTION_ENABLED_EMAIL_SENDING = 'ask_question/general/enable_emails_sending';
+
+    /**
+     * Path to field a customer support - sender email.
+     */
+    private const XML_PATH_STORE_SUPPORT_EMAIL = 'trans_email/ident_support/email';
+
     /**
      * @var StoreManagerInterface
      */
@@ -34,11 +43,6 @@ class Mail extends AbstractHelper
     private $scopeConfig;
 
     /**
-     * @var UserFactory
-     */
-    private $userFactory;
-
-    /**
      * Mail constructor.
      *
      * @param Context $context
@@ -46,21 +50,18 @@ class Mail extends AbstractHelper
      * @param TransportBuilder $transportBuilder
      * @param StateInterface $inlineTranslation
      * @param ScopeConfigInterface $scopeConfig
-     * @param UserFactory $userFactory
      */
     public function __construct(
         Context $context,
         StoreManagerInterface $storeManager,
         TransportBuilder $transportBuilder,
         StateInterface $inlineTranslation,
-        ScopeConfigInterface $scopeConfig,
-        UserFactory $userFactory
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->storeManager = $storeManager;
         $this->transportBuilder = $transportBuilder;
         $this->inlineTranslation = $inlineTranslation;
         $this->scopeConfig = $scopeConfig;
-        $this->userFactory = $userFactory;
 
         parent::__construct($context);
     }
@@ -75,18 +76,30 @@ class Mail extends AbstractHelper
      */
     public function sendMail($emailFrom, $message, $customerName = ''): void
     {
-        $templateOptions = [
-            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-            'store' => $this->storeManager->getStore()->getId()
-        ];
         $templateVars = [
             'store' => $this->storeManager->getStore(),
             'customer_name' => $customerName,
             'message'   => $message
         ];
         $from = ['email' => $emailFrom, 'name' => $customerName];
+        $to = [$this->getStoreSupportEmail()];
+        $this->send($from, $to, $templateVars);
+    }
+
+    /**
+     * @param $from
+     * @param $to
+     * @param $templateVars
+     * @throws \Magento\Framework\Exception\MailException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function send($from, $to, $templateVars): void
+    {
+        $templateOptions = [
+            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+            'store' => $this->storeManager->getStore()->getId()
+        ];
         $this->inlineTranslation->suspend();
-        $to = [$this->getAdminEmail()];
         $transport = $this->transportBuilder->setTemplateIdentifier('ask_question_email_template')
             ->setTemplateOptions($templateOptions)
             ->setTemplateVars($templateVars)
@@ -98,26 +111,24 @@ class Mail extends AbstractHelper
     }
 
     /**
-     * @return mixed|string
+     * @return boolean
      */
-    private function getAdminEmail()
+    public function isEnabledEmailsSending(): bool
     {
-        $transEmailSaller = $this->scopeConfig->getValue(
-            'trans_email/ident_sales/email',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_ASK_QUESTION_ENABLED_EMAIL_SENDING,
+            ScopeInterface::SCOPE_STORE
         );
-        if ($transEmailSaller) {
-            return $transEmailSaller;
-        }
+    }
 
-        /** @var UserFactory $userFactory */
-        $userFactory =  $this->userFactory->create();
-        if ($userFactory) {
-            /** @var User $user */
-            $user = $userFactory->getById(1);
-            return $user->getEmail();
-        }
-
-        return '';
+    /**
+     * @return string
+     */
+    public function getStoreSupportEmail(): string
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_STORE_SUPPORT_EMAIL,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 }
