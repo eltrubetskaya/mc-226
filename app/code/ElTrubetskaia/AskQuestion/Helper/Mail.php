@@ -13,34 +13,34 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 class Mail extends AbstractHelper
 {
     /**
-     * Path to field ask a question module enabled emails sending.
+     * Configuration path to field ask a question module enabled emails sending.
      */
-    private const XML_PATH_ASK_QUESTION_ENABLED_EMAIL_SENDING = 'ask_question/general/enable_emails_sending';
+    const XML_PATH_ASK_QUESTION_ENABLED_EMAIL_SENDING = 'ask_question/general/enable_emails_sending';
 
     /**
-     * Path to field a customer support - sender email.
+     * Configuration path to field a customer support - sender email.
      */
-    private const XML_PATH_STORE_SUPPORT_EMAIL = 'trans_email/ident_support/email';
+    const XML_PATH_STORE_SUPPORT_EMAIL = 'trans_email/ident_support/email';
 
     /**
      * @var StoreManagerInterface
      */
-    private $storeManager;
+    protected $storeManager;
 
     /**
      * @var TransportBuilder
      */
-    private $transportBuilder;
+    protected $transportBuilder;
 
     /**
      * @var StateInterface
      */
-    private $inlineTranslation;
+    protected $inlineTranslation;
 
     /**
      * @var ScopeConfigInterface
      */
-    private $scopeConfig;
+    protected $scopeConfig;
 
     /**
      * Mail constructor.
@@ -67,23 +67,36 @@ class Mail extends AbstractHelper
     }
 
     /**
-     * @param $emailFrom
+     * @param string $customerEmail
      * @param $message
      * @param string $customerName
      *
      * @throws \Magento\Framework\Exception\MailException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function sendMail($emailFrom, $message, $customerName = ''): void
+    public function sendMail($customerEmail, $message, $customerName = ''): void
     {
-        $templateVars = [
-            'store' => $this->storeManager->getStore(),
-            'customer_name' => $customerName,
-            'message'   => $message
-        ];
-        $from = ['email' => $emailFrom, 'name' => $customerName];
-        $to = [$this->getStoreSupportEmail()];
-        $this->send($from, $to, $templateVars);
+        if ($this->getStoreSupportEmail()) {
+            $templateVars = [
+                'store' => $this->storeManager->getStore(),
+                'title' => __('Hello ') . $customerName,
+                'message'   =>  __('Your request was submitted. We\'ll get in touch with you as soon as possible.')
+            ];
+            $from = ['email' => $this->getStoreSupportEmail(), 'name' => 'Customer Support'];
+            $to = [$customerEmail];
+            $this->send($from, $to, $templateVars);
+
+            unset($templateVars, $from, $to);
+
+            $templateVars = [
+                'store' => $this->storeManager->getStore(),
+                'title' => __('Hello Admin'),
+                'message'   => __('New Question from customer: ') . $message
+            ];
+            $from = ['email' => $customerEmail, 'name' => $customerName];
+            $to = [$this->getStoreSupportEmail()];
+            $this->send($from, $to, $templateVars);
+        }
     }
 
     /**

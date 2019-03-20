@@ -9,7 +9,6 @@ use Magento\Framework\App\Request\Http;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Exception\LocalizedException;
-use ElTrubetskaia\AskQuestion\Helper\Mail;
 
 class Index extends \Magento\Framework\App\Action\Action
 {
@@ -28,22 +27,22 @@ class Index extends \Magento\Framework\App\Action\Action
     private $askQuestionFactory;
 
     /**
-     * @var Mail
+     * @var \ElTrubetskaia\AskQuestion\Helper\Mail
      */
-    private $mailHelper;
+    protected $mailHelper;
 
     /**
      * Index constructor.
      * @param Validator $formKeyValidator
      * @param AskQuestionFactory $askQuestionFactory
      * @param Context $context
-     * @param Mail $mailHelper
+     * @param \ElTrubetskaia\AskQuestion\Helper\Mail $mailHelper
      */
     public function __construct(
         Validator $formKeyValidator,
         AskQuestionFactory $askQuestionFactory,
         Context $context,
-        Mail $mailHelper
+        \ElTrubetskaia\AskQuestion\Helper\Mail $mailHelper
     ) {
         parent::__construct($context);
         $this->formKeyValidator = $formKeyValidator;
