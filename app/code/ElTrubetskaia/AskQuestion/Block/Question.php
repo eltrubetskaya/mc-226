@@ -43,11 +43,12 @@ class Question extends Template
      * @return Collection
      * @throws NoSuchEntityException
      */
-    public function getAskQuestions(): Collection
+    public function getAskQuestionsForProduct(): Collection
     {
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();
         $collection->addStoreFilter()
+            ->addFieldToFilter('sku', $this->getCurrentProduct()->getSku())
             ->getSelect()
             ->orderRand();
         if ($limit = $this->getData('limit')) {
