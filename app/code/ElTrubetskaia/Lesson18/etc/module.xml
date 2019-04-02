@@ -3,6 +3,7 @@
     <module name="ElTrubetskaia_Lesson18" setup_version="0.0.1">
         <sequence>
             <module name="Magento_Checkout"/>
+            <module name="Geekhub_CustomerOrder "/>
         </sequence>
     </module>
 </config>
