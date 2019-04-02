@@ -1,14 +1,12 @@
 <?php /** @var \ElTrubetskaia\AskQuestion\Block\Question $block */
-$askQuestions = $block->getAskQuestions();
+$askQuestions = $block->getAskQuestionsForProduct();
 ?>
 <?php if ($askQuestions !== null) : ?>
     <ul>
         <?php /** @var \ElTrubetskaia\AskQuestion\Model\AskQuestion $askQuestion */
         foreach ($askQuestions as $askQuestion) :
             ?>
-            <?php if ($askQuestion->getSku() === $block->getCurrentProduct()->getSku()) : ?>
-                <li><?= __('Requested by %1', $askQuestion->getName()) ?></li>
-            <?php endif; ?>
+            <li><?= __('Requested by %1', $askQuestion->getName()) ?></li>
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
