@@ -73,7 +73,7 @@ class AdditionalEmail extends ConfigValue
     {
         /** @var string $value */
         $value = $this->getValue();
-        $decodedValue = $this->serializer->unserialize($value);
+        $decodedValue = $value ? $this->serializer->unserialize($value) : [];
 
         $this->setValue($decodedValue);
     }
