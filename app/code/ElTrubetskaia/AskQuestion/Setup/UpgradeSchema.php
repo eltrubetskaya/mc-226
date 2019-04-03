@@ -108,6 +108,40 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $installer->getConnection()->createTable($table);
         }
 
+        if (version_compare($context->getVersion(), '0.0.6', '<')) {
+            /**
+             * Add column 'Customer id to 'el_ask_question'
+             */
+            $tableName = $setup->getTable('el_ask_question');
+            if ($setup->getConnection()->isTableExists($tableName) === true) {
+                $connection = $setup->getConnection();
+                $connection->addColumn(
+                    $tableName,
+                    'customer_id',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                        'size' => 10,
+                        'unsigned' => true,
+                        'nullable' => false,
+                        'comment' => 'Customer ID',
+                    ]
+                );
+                $setup->getConnection()->addForeignKey(
+                    $installer->getFkName(
+                        $installer->getTable('el_ask_question'),
+                        'customer_id',
+                        'customer_entity',
+                        'entity_id'
+                    ),
+                    $tableName,
+                    'customer_id',
+                    $installer->getTable('customer_entity'),
+                    'entity_id',
+                    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+                );
+            }
+        }
+
         $installer->endSetup();
     }
 }
