@@ -33,9 +33,9 @@ class Index extends \Magento\Framework\App\Action\Action
     private $askQuestionRepository;
 
     /**
-     * @var \ElTrubetskaia\AskQuestion\Helper\Mail
+     * @var \ElTrubetskaia\AskQuestion\Model\Mail
      */
-    protected $mailHelper;
+    protected $mail;
 
     /**
      * Index constructor.
@@ -43,20 +43,20 @@ class Index extends \Magento\Framework\App\Action\Action
      * @param AskQuestionFactory $askQuestionFactory
      * @param AskQuestionRepositoryInterface $askQuestionRepository
      * @param Context $context
-     * @param \ElTrubetskaia\AskQuestion\Helper\Mail $mailHelper
+     * @param \ElTrubetskaia\AskQuestion\Model\Mail $mail
      */
     public function __construct(
         Validator $formKeyValidator,
         AskQuestionFactory $askQuestionFactory,
         AskQuestionRepositoryInterface $askQuestionRepository,
         Context $context,
-        \ElTrubetskaia\AskQuestion\Helper\Mail $mailHelper
+        \ElTrubetskaia\AskQuestion\Model\Mail $mail
     ) {
         parent::__construct($context);
         $this->formKeyValidator = $formKeyValidator;
         $this->askQuestionFactory = $askQuestionFactory;
         $this->askQuestionRepository = $askQuestionRepository;
-        $this->mailHelper = $mailHelper;
+        $this->mail = $mail;
     }
 
     /**
@@ -89,12 +89,10 @@ class Index extends \Magento\Framework\App\Action\Action
             /**
              * Send Email
              */
-            if ($this->mailHelper->isEnabledEmailsSending()) {
-                $email = $askQuestion->getEmail();
-                $customerName = $askQuestion->getName();
-                $message = $request->getParam('question');
-                $this->mailHelper->sendMail($email, $message, $customerName);
-            }
+            $email = $askQuestion->getEmail();
+            $customerName = $askQuestion->getName();
+            $message = $request->getParam('question');
+            $this->mail->sendMail($email, $message, $customerName);
 
             $data = [
                 'status' => self::STATUS_SUCCESS,
