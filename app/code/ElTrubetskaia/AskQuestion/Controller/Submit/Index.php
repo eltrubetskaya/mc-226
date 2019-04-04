@@ -27,19 +27,27 @@ class Index extends \Magento\Framework\App\Action\Action
     private $askQuestionFactory;
 
     /**
+     * @var \ElTrubetskaia\AskQuestion\Model\Mail
+     */
+    protected $mail;
+
+    /**
      * Index constructor.
      * @param Validator $formKeyValidator
      * @param AskQuestionFactory $askQuestionFactory
      * @param Context $context
+     * @param \ElTrubetskaia\AskQuestion\Model\Mail $mail
      */
     public function __construct(
         Validator $formKeyValidator,
         AskQuestionFactory $askQuestionFactory,
-        Context $context
+        Context $context,
+        \ElTrubetskaia\AskQuestion\Model\Mail $mail
     ) {
         parent::__construct($context);
         $this->formKeyValidator = $formKeyValidator;
         $this->askQuestionFactory = $askQuestionFactory;
+        $this->mail = $mail;
     }
 
     /**
@@ -68,6 +76,14 @@ class Index extends \Magento\Framework\App\Action\Action
                 ->setSku($request->getParam('sku'))
                 ->setQuestion($request->getParam('question'));
             $askQuestion->save();
+
+            /**
+             * Send Email
+             */
+            $email = $askQuestion->getEmail();
+            $customerName = $askQuestion->getName();
+            $message = $request->getParam('question');
+            $this->mail->sendMail($email, $message, $customerName);
 
             $data = [
                 'status' => self::STATUS_SUCCESS,

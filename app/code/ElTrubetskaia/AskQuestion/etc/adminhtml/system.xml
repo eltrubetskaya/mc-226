@@ -16,6 +16,14 @@
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                     <backend_model>ElTrubetskaia\AskQuestion\Model\Config\Backend\Enabled</backend_model>
                 </field>
+                <field id="enable_emails_sending" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Emails Sending</label>
+                    <comment>The ability to send an email to the administrator and customer</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
             </group>
             <group id="cron" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label> Cron Job</label>
