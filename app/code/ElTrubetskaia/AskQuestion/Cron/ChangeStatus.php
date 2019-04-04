@@ -14,7 +14,7 @@ class ChangeStatus
     /**
      * Configuration path to customer Ask a Question cron schedule
      */
-    private const XML_PATH_ASK_QUESTION_CRON_SCHEDULE = 'catalog/ask_question_cron_job/ask_question_cron_schedule';
+    private const XML_PATH_ASK_QUESTION_CRON_SCHEDULE = 'ask_question/cron/frequency';
 
     /**
      * @var CollectionFactory
