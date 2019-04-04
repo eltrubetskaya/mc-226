@@ -1,6 +1,6 @@
 <?php
 
-namespace ElTrubetskaia\AskQuestion\Helper;
+namespace ElTrubetskaia\AskQuestion\Model;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
@@ -25,22 +25,17 @@ class Mail extends AbstractHelper
     /**
      * @var StoreManagerInterface
      */
-    protected $storeManager;
+    private $storeManager;
 
     /**
      * @var TransportBuilder
      */
-    protected $transportBuilder;
+    private $transportBuilder;
 
     /**
      * @var StateInterface
      */
-    protected $inlineTranslation;
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    protected $scopeConfig;
+    private $inlineTranslation;
 
     /**
      * Mail constructor.
@@ -106,27 +101,29 @@ class Mail extends AbstractHelper
      * @throws \Magento\Framework\Exception\MailException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function send($from, $to, $templateVars): void
+    private function send($from, $to, $templateVars): void
     {
-        $templateOptions = [
-            'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-            'store' => $this->storeManager->getStore()->getId()
-        ];
-        $this->inlineTranslation->suspend();
-        $transport = $this->transportBuilder->setTemplateIdentifier('ask_question_email_template')
-            ->setTemplateOptions($templateOptions)
-            ->setTemplateVars($templateVars)
-            ->setFrom($from)
-            ->addTo($to)
-            ->getTransport();
-        $transport->sendMessage();
-        $this->inlineTranslation->resume();
+        if ($this->isEnabledEmailsSending()) {
+            $templateOptions = [
+                'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+                'store' => $this->storeManager->getStore()->getId()
+            ];
+            $this->inlineTranslation->suspend();
+            $transport = $this->transportBuilder->setTemplateIdentifier('ask_question_email_template')
+                ->setTemplateOptions($templateOptions)
+                ->setTemplateVars($templateVars)
+                ->setFrom($from)
+                ->addTo($to)
+                ->getTransport();
+            $transport->sendMessage();
+            $this->inlineTranslation->resume();
+        }
     }
 
     /**
      * @return boolean
      */
-    public function isEnabledEmailsSending(): bool
+    private function isEnabledEmailsSending(): bool
     {
         return $this->scopeConfig->getValue(
             self::XML_PATH_ASK_QUESTION_ENABLED_EMAIL_SENDING,
@@ -137,7 +134,7 @@ class Mail extends AbstractHelper
     /**
      * @return string
      */
-    public function getStoreSupportEmail(): string
+    private function getStoreSupportEmail(): string
     {
         return $this->scopeConfig->getValue(
             self::XML_PATH_STORE_SUPPORT_EMAIL,
