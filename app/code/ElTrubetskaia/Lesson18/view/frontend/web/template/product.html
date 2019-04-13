@@ -1,0 +1,26 @@
+<li id="product" data-bind="visible: isVisible">
+    <h3>Product</h3>
+
+    <if args="products().length">
+        <div>
+            <span>ID</span>
+            <span>Name</span>
+            <span>Sku</span>
+            <span>Price</span>
+        </div>
+        <each args="data: products, as: 'product'">
+            <div>
+                <span data-bind="html: product.id"/>
+                <span text="product.name"/>
+                <span text="product.sku"/>
+                <span text="product.price"/>
+            </div>
+        </each>
+
+        <a href="#" data-bind="click: nextAction">Next</a>
+
+    </if>
+    <ifnot args="products().length">
+        <div translate="'Sorry, no products found.'"/>
+    </ifnot>
+</li>

@@ -19,4 +19,7 @@
                 type="ElTrubetskaia\AskQuestion\Model\AskQuestion" />
     <preference for="ElTrubetskaia\AskQuestion\Api\AskQuestionRepositoryInterface"
                 type="ElTrubetskaia\AskQuestion\Model\AskQuestionRepository" />
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="ask_question_checkout_processor" type="ElTrubetskaia\AskQuestion\Plugin\CheckoutProcessor"/>
+    </type>
 </config>
